@@ -1,14 +1,29 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
+
+
+
+
+app = Flask(__name__)
+app.config.from_pyfile('config.py')
+db = SQLAlchemy()
+db.init_app(app)
+jwt = JWTManager(app)
+
 
 from api import register_api
+register_api(app)
 
 
 
 def create_app():
     app = Flask(__name__)
+    db = SQLAlchemy(app)
     register_api(app)
+    
 
-    return app
+    return app,db
 
 
 # api = Api(app)
@@ -39,5 +54,5 @@ def create_app():
 #     api.add_resource(Register, '/register')
 
 if __name__ == '__main__':
-    app = create_app()
+    # app,db = create_app()
     app.run(debug=True)

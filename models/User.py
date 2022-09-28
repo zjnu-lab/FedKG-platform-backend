@@ -1,8 +1,11 @@
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db, login_manager
-from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer
+import sys
+print(sys.path)
+from app import db
+# from app import db, login_manager
+# from flask_login import UserMixin
+# from itsdangerous import TimedJSONWebSignatureSerializer
 from datetime import datetime
 
 # Flask中一个Model子类就是数据库中的一个表。默认表名'User'.lower() ===> user
@@ -13,23 +16,25 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=True)
+    name = db.Column(db.String(64))
     email = db.Column(db.String(50))
     phone = db.Column(db.String(20))
+    active = db.Column(db.Boolean, default=True, nullable=False)
     # db.Boolean是布尔类型， 值只能是True或者False。
     # confirmed = db.Column(db.Boolean, default=False)  # 账户是否已经确认
     # 新添加的用户资料
-    name = db.Column(db.String(64))
+    
     # 用户的真实姓名
-    location = db.Column(db.String(64))  # 所在地
-    about_me = db.Column(db.Text())  # 自我介绍
+    # location = db.Column(db.String(64))  # 所在地
+    # about_me = db.Column(db.Text())  # 自我介绍
     # 注册日期
     # default 参数可以接受函数作为默认值,
     # 所以每次生成默认值时,db.Column() 都会调用指定的函数。
-    create_time = db.Column(db.DateTime, default=datetime.utcnow)
-    # 最后访问日期
-    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    # create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    # # 最后访问日期
+    # last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
-    active = db.Column(db.Boolean, default=True, nullable=False)
+    
 
     # 外键关联
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
@@ -90,40 +95,40 @@ class User(db.Model):
         db.session.commit()
     
 
-    @staticmethod
-    def get_user(username):
-        return User.query.filter(User.username == username).first()
+    # @staticmethod
+    # def get_user(username):
+    #     return User.query.filter(User.username == username).first()
 
-    @staticmethod
-    def authenticate(username, password):
-        flag_user_exist = True
-        flag_password_correct = True
+    # @staticmethod
+    # def authenticate(username, password):
+    #     flag_user_exist = True
+    #     flag_password_correct = True
 
-        user = User.query.filter(User.username == username).first()
-        if user and user.active == 1:
-            if not user.password == password:
-                flag_password_correct = False
-        else:
-            flag_user_exist = False
+    #     user = User.query.filter(User.username == username).first()
+    #     if user and user.active == 1:
+    #         if not user.password == password:
+    #             flag_password_correct = False
+    #     else:
+    #         flag_user_exist = False
 
-        return flag_user_exist, flag_password_correct, user
+    #     return flag_user_exist, flag_password_correct, user
 
-    @staticmethod
-    def get_users():
-        return User.query.filter(User.active == 1).all()
+    # @staticmethod
+    # def get_users():
+    #     return User.query.filter(User.active == 1).all()
 
-    @staticmethod
-    def insert_user(user):
-        db.session.add(user)
-        db.session.commit()
+    # @staticmethod
+    # def insert_user(user):
+    #     db.session.add(user)
+    #     db.session.commit()
 
-    @staticmethod
-    def update_user():
-        db.session.commit()
+    # @staticmethod
+    # def update_user():
+    #     db.session.commit()
 
-    @staticmethod
-    def deactivate_user():
-        db.session.commit()
+    # @staticmethod
+    # def deactivate_user():
+    #     db.session.commit()
 
     def __repr__(self):
         return "<User: %s>" % (self.username)

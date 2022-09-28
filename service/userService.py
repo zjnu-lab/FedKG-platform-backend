@@ -7,30 +7,30 @@ class UserService:
 
     def register(self, username, password, **kwargs):
         
-        flag_user_exist = False
-        flag_register_success = False
+        is_exist = False
+        is_success = False
 
         if self.get_user(username):
-          flag_user_exist = True
+          is_exist = True
 
-        if self.create_user(username,password):
-            flag_register_success = True
+        if self.create_user(username,password,kwargs):
+            is_success = True
         
-        return flag_user_exist,flag_register_success
+        return is_exist,is_success
 
     def login(self, username, password):
 
-        flag_user_exist = True
-        flag_password_correct = True
+        is_exist = True
+        is_correct = True
 
         user = self.get_user(username)
         if user and user.active == 1:
             if not user.check_password_hash(password):
-                flag_password_correct = False
+               is_correct = False
         else:
-            flag_user_exist = False
+            is_exist = False
         
-        return flag_user_exist, flag_password_correct, user
+        return is_exist,is_correct, user
         # pass
 
     
@@ -47,4 +47,12 @@ class UserService:
 
     def create_user(self, username, password, **kwargs):
         new_user = User(username,password)
+        if kwargs.get('phone'):
+            new_user.phone = kwargs.get('phone')
+        if kwargs.get('email'):
+            new_user.email = kwargs.get('email')
+        if kwargs.get('name'):
+            new_user.name = kwargs.get('name')
+        
+        
         new_user.save_to_db()
