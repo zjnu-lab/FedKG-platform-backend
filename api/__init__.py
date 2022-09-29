@@ -1,8 +1,6 @@
 import sys
 from flask_restful import Resource, Api
 
-print(sys.path)
-
 from api.hello import Hello
 from api.auth import Register,Login
 from api.user import User,Users

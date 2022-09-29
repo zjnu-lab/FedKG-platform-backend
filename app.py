@@ -53,6 +53,6 @@ def create_app():
 #     api.add_resource(Login, '/login')
 #     api.add_resource(Register, '/register')
 
-if __name__ == '__main__':
-    # app,db = create_app()
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     # app,db = create_app()
+#     app.run(debug=True)

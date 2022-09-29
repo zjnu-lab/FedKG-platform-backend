@@ -1,3 +1,5 @@
 from app import app 
 
-app.run()
+
+# print(app.url_map)
+app.run(debug= True)

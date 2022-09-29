@@ -1,11 +1,12 @@
 from flask import jsonify
 
 #统一返回方法
-def response(http_code,code=None,message=None,data=None):
+def response(httpcode,code="",message="",data=""):
     
-    return jsonify({
-            "http_code": http_code,
+    resp = jsonify({
             "code": code,
             "message": message,
             "data": data
         })
+    resp.status_code = httpcode
+    return resp

@@ -1,19 +1,20 @@
 from models.user import User
 
-class UserService:
+class UserService(object):
     
     def __init__(self):
         pass
 
-    def register(self, username, password, **kwargs):
+    def register(self, username, password, args):
         
         is_exist = False
         is_success = False
-
-        if self.get_user(username):
+        if self.find_user(username):
           is_exist = True
+          return is_exist,is_success
 
-        if self.create_user(username,password,kwargs):
+
+        if self.create_user(username,password,args):
             is_success = True
         
         return is_exist,is_success
@@ -23,9 +24,9 @@ class UserService:
         is_exist = True
         is_correct = True
 
-        user = self.get_user(username)
+        user = self.find_user(username)
         if user and user.active == 1:
-            if not user.check_password_hash(password):
+            if not user.verify_password(password):
                is_correct = False
         else:
             is_exist = False
@@ -34,7 +35,7 @@ class UserService:
         # pass
 
     
-    def get_user(self, username):
+    def find_user(self, username):
 
         # 可以先从cache 获取
         # todo 
@@ -45,14 +46,18 @@ class UserService:
     def edit_user(self, username,**kwargs):
         pass
 
-    def create_user(self, username, password, **kwargs):
+    def create_user(self, username, password, args):
+        is_success = False
         new_user = User(username,password)
-        if kwargs.get('phone'):
-            new_user.phone = kwargs.get('phone')
-        if kwargs.get('email'):
-            new_user.email = kwargs.get('email')
-        if kwargs.get('name'):
-            new_user.name = kwargs.get('name')
+        if args.get('phone'):
+            new_user.phone = args.get('phone')
+        if args.get('email'):
+            new_user.email = args.get('email')
+        if args.get('name'):
+            new_user.name = args.get('name')
         
         
         new_user.save_to_db()
+        is_success = True
+        
+        return is_success

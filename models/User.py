@@ -1,7 +1,5 @@
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
-import sys
-print(sys.path)
 from app import db
 # from app import db, login_manager
 # from flask_login import UserMixin
@@ -48,6 +46,8 @@ class User(db.Model):
         self.username = username
         self.password = password
         self.active = active
+        #默认为普通用户
+        self.role_id = 2
 
     @property
     def password(self):
