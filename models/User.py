@@ -13,7 +13,7 @@ class User(db.Model):
     __tablename__ = 'users'  # 自定义数据表的表名
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(200), nullable=True)
+    password_hash = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(64))
     email = db.Column(db.String(50))
     phone = db.Column(db.String(20))
