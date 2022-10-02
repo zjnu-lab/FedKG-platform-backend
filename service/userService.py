@@ -9,6 +9,7 @@ class UserService(object):
         
         is_exist = False
         is_success = False
+
         if self.find_user(username):
           is_exist = True
           return is_exist,is_success
@@ -48,6 +49,7 @@ class UserService(object):
 
     def create_user(self, username, password, args):
         is_success = False
+        
         new_user = User(username,password)
         if args.get('phone'):
             new_user.phone = args.get('phone')

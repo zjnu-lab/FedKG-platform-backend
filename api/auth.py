@@ -44,7 +44,14 @@ class Login(Resource):
             .add_argument("password", type=str, location="form", required=True, help="密码不能为空") \
             .parse_args()
 
+        if args['username'] == "":
+            return response(400,code=StatusCode.USER_NULL.code,message=StatusCode.USER_NULL.message)
+
+        if args['password'] == "":
+            return response(400,code=StatusCode.PWD_NULL.code,message=StatusCode.PWD_NULL.message)
+
         is_exist, is_correct, user = user_service.login(args['username'], args['password'])
+        
         if not is_exist:
             return response(400,code=StatusCode.USER_ERR.code, message=StatusCode.USER_ERR.message)
         elif not is_correct:
