@@ -17,13 +17,13 @@ else:
 user = 'root'
 password = '123456'
 host = '127.0.0.1'
-port = '3366'
+port = '3306'
 database = 'fedkg'
 
 
 
 # dev_db = prefix + 'data.db'
-dev_db ='mysql://%s:%s@%s:%s/%s' % (user, password, host, port,database)
+dev_db ='mysql+pymysql://%s:%s@%s:%s/%s' % (user, password, host, port,database)
 # SECRET_KEY = os.getenv('SECRET_KEY', 'secret string')
 # SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI', dev_db)
