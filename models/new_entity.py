@@ -1,0 +1,41 @@
+from contextlib import nullcontext
+from flask import current_app
+from werkzeug.security import generate_password_hash, check_password_hash
+from app import db
+# from app import db, login_manager
+# from flask_login import UserMixin
+# from itsdangerous import TimedJSONWebSignatureSerializer
+from datetime import datetime
+
+# Flask中一个Model子类就是数据库中的一个表。默认表名'User'.lower() ===> user
+
+class NewEntity(db.Model):
+
+    __tablename__ = 'new_entities'  # 自定义数据表的表名
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    # status 标识 审核状态 0: 未审核，1: 审核通过， 2: 审核不通过，3： 未提交,4:提交
+    status = db.Column(db.Integer,default=0,nullable=False)
+    failed_reason = db.Column(db.Text,nullable=True)
+
+    entity_attributes = db.column(db.LargeBinary)
+    
+
+    # 外键关联
+    upload_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    review_user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=True)
+
+
+    def __init__(self, user_id=None):
+        
+        self.upload_user_id = user_id
+
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+    
+
+
+
+

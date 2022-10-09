@@ -44,4 +44,33 @@ INSERT INTO roles (name)
     ( "normal_user");
 ```
 
+
+## 新实体表
+    __tablename__ = 'new_entity'  # 自定义数据表的表名
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    # status 标识 审核状态 0: 未审核，1: 审核通过， 2: 审核不通过，3： 未提交,4:提交
+    status = db.Column(db.Integer,default=0,nullable=False)
+    failed_reason = db.Column(db.Text,nullable=True)
+
+    entity_attributes = db.column(db.LargeBinary,nullable=True)
+    
+
+    # 外键关联
+    upload_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    review_user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=True)
+
+```mysql
+CREATE TABLE IF NOT EXISTS `new_entities`(
+   `id` INT UNSIGNED AUTO_INCREMENT,
+   `create_time` VARCHAR(100) NOT NULL,
+   `status` INT UNSIGNED default 0 NOT NULL,
+   `failed_reason` TEXT,
+   `entity_atttributes` BLOB,
+   `upload_user_id` INT UNSIGNED NOT NULL,
+   `review_user_id` INT UNSIGNED,
+   PRIMARY KEY ( `id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+```
     
