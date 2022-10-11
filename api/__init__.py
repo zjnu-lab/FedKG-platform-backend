@@ -11,6 +11,7 @@ def register_api(app):
 
     #hello_world
     api.add_resource(Hello, '/')
+    
 
     #user
     api.add_resource(Users, '/users')

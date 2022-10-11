@@ -26,15 +26,19 @@ class NewEntity(db.Model):
     review_user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=True)
 
 
-    def __init__(self, user_id=None):
+    def __init__(self, user_id=None,entity_attributes = None):
         
         self.upload_user_id = user_id
+        self.entity_attributes = entity_attributes
 
 
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
     
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
 

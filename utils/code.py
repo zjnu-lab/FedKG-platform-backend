@@ -19,12 +19,12 @@ class StatusCode(Enum):
     Login_SUCCESS = (1006, '登陆成功')
 
     # 上传新实体模块
-    UPNWENTITY_SUCCESS = (2000, '用户注册成功')
-
+    UPNWENTITY_SUCCESS = (2000, '上传新实体成功')
+    UPNWENTITY_FAILED = (2000, '上传新实体失败')
 
     @property
     def code(self):
-        """获取状态码"""
+        """获取状态码""" 
         return self.value[0]
 
     @property

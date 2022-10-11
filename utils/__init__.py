@@ -1,4 +1,5 @@
 from flask import jsonify
+import pickle
 
 
 #统一返回方法
@@ -15,7 +16,8 @@ def response(httpcode,code="",message="",data=None):
 #统一序列化函数
 
 def new_entity_serialize(args = None):
-    pass
+    return pickle.dumps(args)
+    
 
 def new_entity_deserialize(args = None):
-    pass
+    return pickle.loads(args)
