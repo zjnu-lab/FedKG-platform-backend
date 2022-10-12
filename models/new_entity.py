@@ -18,12 +18,18 @@ class NewEntity(db.Model):
     status = db.Column(db.Integer,default=0,nullable=False)
     failed_reason = db.Column(db.Text,nullable=True)
 
-    entity_attributes = db.column(db.LargeBinary)
+    entity_attributes = db.Column(db.LargeBinary)
     
 
     # 外键关联
     upload_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     review_user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=True)
+
+    upload_user = db.relationship("User",backref="upload_new_entities",foreign_keys=[upload_user_id])
+    review_user = db.relationship("User",backref="review_new_entities",foreign_keys=[review_user_id])
+
+    # upload_user = db.relationship("Users",back_populates="new_entities")
+    # review_user = db.relationship("Users",back_populates="new_entities")
 
 
     def __init__(self, user_id=None,entity_attributes = None):

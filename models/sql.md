@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `new_entities`(
    `create_time` VARCHAR(100) NOT NULL,
    `status` INT UNSIGNED default 0 NOT NULL,
    `failed_reason` TEXT,
-   `entity_atttributes` BLOB,
+   `entity_attributes` BLOB,
    `upload_user_id` INT UNSIGNED NOT NULL,
    `review_user_id` INT UNSIGNED,
    PRIMARY KEY ( `id` )

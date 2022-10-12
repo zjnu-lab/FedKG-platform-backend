@@ -5,6 +5,8 @@ from api.hello import Hello
 from api.auth import Register,Login
 from api.user import User,Users
 
+from api.new_entity import NewEntity,UserNewEntities
+
 def register_api(app):
 
     api = Api(app)
@@ -21,3 +23,9 @@ def register_api(app):
     #auth
     api.add_resource(Login, '/login')
     api.add_resource(Register, '/register')
+
+    #new_entity
+    api.add_resource(NewEntity, '/newent')
+
+    #user_new_entities
+    api.add_resource(UserNewEntities, '/user/newentities')

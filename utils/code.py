@@ -20,7 +20,15 @@ class StatusCode(Enum):
 
     # 上传新实体模块
     UPNWENTITY_SUCCESS = (2000, '上传新实体成功')
-    UPNWENTITY_FAILED = (2000, '上传新实体失败')
+    UPNWENTITY_FAILED = (2001, '上传新实体失败')
+    GETNWENTITY_SUCCESS = (2002,'获取成功')
+    GETNWENTITY_FAILED = (2003,'不是实体上传者，获取失败')
+    EDITNWENTITY_SUCCESS = (2004,'修改成功')
+    EDITNWENTITY_FAILED = (2005,'不是实体上传者，不能修改')
+    DELNENTITY_SUCCESS = (2006,'删除成功')
+    DELNWENTITY_FAILED = (2007,'不是实体上传者，不能删除')
+
+
 
     @property
     def code(self):

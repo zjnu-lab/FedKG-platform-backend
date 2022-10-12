@@ -29,7 +29,7 @@ dev_db ='mysql+pymysql://%s:%s@%s:%s/%s' % (user, password, host, port,database)
 SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI', dev_db)
 
 SECRET_KEY = 'some-secret-string'
-JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=1)
-JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(minutes=1)
+JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
+JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
 
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'

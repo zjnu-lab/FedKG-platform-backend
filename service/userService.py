@@ -44,6 +44,9 @@ class UserService(object):
         return User.query.filter(User.username == username).first()
         # pass 
 
+    def find_user_by_id(self, id):
+        return User.query.filter(User.id == id).first()
+
     def edit_user(self, username,**kwargs):
         pass
 

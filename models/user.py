@@ -41,7 +41,7 @@ class User(db.Model):
     # # 反向引用: 1). User添加属性categories   2). Category添加属性user
     # categories = db.relationship('Category', backref='user')
 
-    new_entities = db.relationship('NewEntity', backref='user')
+    # new_entities = db.relationship('NewEntity', back_populates="upload_user")
 
 
     def __init__(self, username=None, password=None, active=True):
