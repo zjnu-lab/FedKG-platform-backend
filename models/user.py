@@ -18,6 +18,7 @@ class User(db.Model):
     email = db.Column(db.String(50))
     phone = db.Column(db.String(20))
     active = db.Column(db.Boolean, default=True, nullable=False)
+    scores = db.Column(db.Integer, default=0,nullable=False)
     # db.Boolean是布尔类型， 值只能是True或者False。
     # confirmed = db.Column(db.Boolean, default=False)  # 账户是否已经确认
     # 新添加的用户资料
@@ -44,7 +45,7 @@ class User(db.Model):
     # new_entities = db.relationship('NewEntity', back_populates="upload_user")
 
 
-    def __init__(self, username=None, password=None, active=True):
+    def __init__(self, username=None, password=None, active=False):
         self.username = username
         self.password = password
         self.active = active

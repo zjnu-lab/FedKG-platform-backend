@@ -17,6 +17,7 @@ class StatusCode(Enum):
     PWD_ERR = (1004, '密码错误')
     PWD_NULL = (1005, '密码不能为空') 
     Login_SUCCESS = (1006, '登陆成功')
+    ADMIN_ERR = (1007, '没有用户权限')
 
     # 上传新实体模块
     UPNWENTITY_SUCCESS = (2000, '上传新实体成功')
@@ -27,6 +28,8 @@ class StatusCode(Enum):
     EDITNWENTITY_FAILED = (2005,'不是实体上传者，不能修改')
     DELNENTITY_SUCCESS = (2006,'删除成功')
     DELNWENTITY_FAILED = (2007,'不是实体上传者，不能删除')
+    REVIEWNWENTITY_SUCCESS = (2008,'审核成功')
+    REVIEWNWENTITY_FAILED = (2009,'审核出现问题')
 
 
 

@@ -5,7 +5,7 @@ class UserService(object):
     def __init__(self):
         pass
 
-    def register(self, username, password, args):
+    def register(self, username, password, args,admin=False):
         
         is_exist = False
         is_success = False
@@ -15,10 +15,11 @@ class UserService(object):
           return is_exist,is_success
 
 
-        if self.create_user(username,password,args):
+        if self.create_user(username,password,args,admin):
             is_success = True
         
         return is_exist,is_success
+    
 
     def login(self, username, password):
 
@@ -26,7 +27,10 @@ class UserService(object):
         is_correct = True
 
         user = self.find_user(username)
-        if user and user.active == 1:
+        # print(user)
+        # 后续需要做用户审核激活判断
+        if user:
+        # if user and user.active == 1:
             if not user.verify_password(password):
                is_correct = False
         else:
@@ -47,13 +51,41 @@ class UserService(object):
     def find_user_by_id(self, id):
         return User.query.filter(User.id == id).first()
 
-    def edit_user(self, username,**kwargs):
-        pass
+    def edit_user(self, username,args):
+        
+        user = self.find_user(username)
 
-    def create_user(self, username, password, args):
+        if user == None:
+            return False,False,False
+
+
+        if args.get('password'):
+            old_password = args.get('old_password')
+            if not user.verify_password(old_password):
+                return False,False,False
+            user.password = args.get('password')
+        if args.get('phone'):
+            user.phone = args.get('phone')
+        if args.get('email'):
+            user.email = args.get('email')
+        if args.get('name'):
+            user.name = args.get('name')
+        if args.get('scores'):
+            user.scores = args.get('scores')
+        if args.get('active'):
+            user.active = args.get('active')
+
+
+        user.save_to_db()
+
+        return True,True,True
+        
+
+    def create_user(self, username, password, args,admin=False):
         is_success = False
         
         new_user = User(username,password)
+
         if args.get('phone'):
             new_user.phone = args.get('phone')
         if args.get('email'):
@@ -61,8 +93,23 @@ class UserService(object):
         if args.get('name'):
             new_user.name = args.get('name')
         
+        if admin == True:
+            new_user.role_id = 1
+            new_user.active = True
         
         new_user.save_to_db()
         is_success = True
         
         return is_success
+
+    def is_admin(self,username):
+
+        user = self.find_user(username)
+
+        if not user:
+            return False
+
+        if user.role_id != 1:
+            return False
+        
+        return True

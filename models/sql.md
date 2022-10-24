@@ -10,16 +10,19 @@ CREATE TABLE IF NOT EXISTS `users`(
    `phone` VARCHAR(20),
    `active` Tinyint(1) NOT NULL,
    `role_id` INT UNSIGNED NOT NULL,
+   `scores` INT UNSIGNED Default 0 NOT NULL,
    PRIMARY KEY ( `id` )
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+    __tablename__ = 'users'  # 自定义数据表的表名
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(200), nullable=True)
+    password_hash = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(64))
     email = db.Column(db.String(50))
     phone = db.Column(db.String(20))
     active = db.Column(db.Boolean, default=True, nullable=False)
+    scores = db.Column(db.Integer, default=0,nullable=False)
 
 ## 角色表
 ```mysql

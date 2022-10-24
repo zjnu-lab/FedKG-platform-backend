@@ -14,7 +14,7 @@ class NewEntity(db.Model):
     __tablename__ = 'new_entities'  # 自定义数据表的表名
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     create_time = db.Column(db.DateTime, default=datetime.utcnow)
-    # status 标识 审核状态 0: 未审核，1: 审核通过， 2: 审核不通过，3： 未提交,4:提交
+    # status 标识 审核状态 0: 未审核，1: 审核通过未同步， 2: 审核不通过，3： 已同步
     status = db.Column(db.Integer,default=0,nullable=False)
     failed_reason = db.Column(db.Text,nullable=True)
 

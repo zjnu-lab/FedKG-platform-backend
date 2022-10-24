@@ -20,10 +20,13 @@ class NewEntityService(object):
         
         return is_success
 
-    def get_user_new_entities(self,username):
+    def get_user_new_entities(self,username,status=None):
         user = user_service.find_user(username)
 
-        user_new_entities = user.upload_new_entities
+        if status is None:
+            user_new_entities = user.upload_new_entities
+        else:
+            user_new_entities = NewEntity.query.filter(NewEntity.upload_user_id == user.id,NewEntity.status == status).all()
 
         return user_new_entities
 
@@ -31,12 +34,15 @@ class NewEntityService(object):
         return NewEntity.query.all()
 
     def get_entity_by_id(self,nwe_entity_id):
-        return NewEntity.query.filter_by(id=nwe_entity_id).first()
+        return NewEntity.query.filter(NewEntity.id == nwe_entity_id).first()
+
+    def get_review_entities(self,status=None):
+        if status is None:
+            return self.get_all_new_entities()
+        return NewEntity.query.filter(NewEntity.status == status).all()
 
     def get_new_entity(self,username,new_entity_id):
         
-        
-
         newent = NewEntity.query.filter(NewEntity.id == new_entity_id).first()
         user = user_service.find_user_by_id(newent.upload_user_id)
 
@@ -70,14 +76,16 @@ class NewEntityService(object):
 
             return True
 
-    def review_new_entity(self,nwent_id,status):
+    def review_new_entities(self,review_entities_list,review_status):
 
 
-        nwent = self.get_entity_by_id(nwent_id)
+        for newent_id in review_entities_list:
 
-        nwent.status = status
 
-        nwent.save_to_db()
+            newent = self.get_entity_by_id(newent_id)
+
+            newent.status = review_status
+
+            newent.save_to_db()
 
         return True
-        pass

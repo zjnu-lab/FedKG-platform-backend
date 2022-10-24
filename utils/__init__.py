@@ -1,5 +1,6 @@
 from flask import jsonify
 import pickle
+import re 
 
 
 #统一返回方法
@@ -21,3 +22,11 @@ def new_entity_serialize(args = None):
 
 def new_entity_deserialize(args = None):
     return pickle.loads(args)
+
+# 邮箱正则识别
+def validate_email(email):
+    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+    if re.fullmatch(regex, email):
+      return True
+    else:
+      return False
