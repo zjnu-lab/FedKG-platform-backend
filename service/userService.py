@@ -7,6 +7,13 @@ class UserService(object):
         pass
 
     def register(self, username, password, args,admin=False):
+        '''用户注册服务
+        
+        :username: 用户名(邮箱)
+        :password: 密码
+        :args: 注册的用户信息
+        :admin: 是否注册管理员
+        '''
         
         _, user = self.find_user(username)
         if user is not None:
@@ -19,6 +26,12 @@ class UserService(object):
     
 
     def login(self, username, password):
+        '''用户登录服务
+        
+        :username: 用户名(邮箱)
+        :password: 密码
+        :return: StatusCode,user
+        '''
 
         code,user = self.find_user(username)
         # print(user)
@@ -35,6 +48,11 @@ class UserService(object):
 
     
     def find_user(self, username):
+        '''查找用户
+        
+        :username: 用户名(邮箱)
+        :return: StatusCode,user
+        '''
 
         # 可以先从cache 获取
         # todo 
@@ -47,9 +65,17 @@ class UserService(object):
         # pass 
 
     def find_user_by_id(self, id):
+        '''通过用户id 查找用户'''
         return User.query.filter(User.id == id).first()
 
     def edit_user(self, username,args):
+        '''修改用户信息
+        
+        :username: 用户名(邮箱)
+        :password: 密码
+        :args: 修改的属性
+        :return: StatusCode
+        '''
         
         code,user = self.find_user(username)
 
@@ -81,6 +107,14 @@ class UserService(object):
         
 
     def create_user(self, username, password, args,admin=False):
+        '''创建用户
+        
+        :username: 用户名(邮箱)
+        :password: 密码
+        :args: 注册用户属性
+        :admin: 是否注册管理员
+        :return: StatusCode
+        '''
         
         new_user = User(username,password)
 
@@ -100,6 +134,11 @@ class UserService(object):
         return StatusCode.RESGISTER_SUCCESS
 
     def is_admin(self,username):
+        '''判断是否是管理员用户
+        
+        :username: 用户名(邮箱)
+        :return: StatusCode
+        '''
 
         code,user = self.find_user(username)
 

@@ -10,6 +10,12 @@ class NewEntityService(object):
         pass
 
     def create_new_entity(self, username,attribute_blob=None):
+        '''创建新的实体
+
+        :username: 用户名字
+        :attribute_blob: 新实体的属性，这里是二进制格式
+        :return: StatusCode
+        '''
 
         code,user = user_service.find_user(username)
 
@@ -23,6 +29,12 @@ class NewEntityService(object):
         return StatusCode.UPNWENTITY_SUCCESS
 
     def get_user_new_entities(self,username,status=None):
+        '''获取用户的上传的新实体
+
+        :username: 用户名字
+        :status: 新实体的状态，为空时 返回所有状态的新实体
+        :return: StatusCode
+        '''
         code,user = user_service.find_user(username)
 
         if user is None:
@@ -42,11 +54,23 @@ class NewEntityService(object):
         return NewEntity.query.filter(NewEntity.id == nwe_entity_id).first()
 
     def get_review_entities(self,status=None):
+        '''管理员获取新实体
+
+        :status: 新实体的状态，为空时 返回所有状态的新实体
+        :return: StatusCode,新实体list
+        '''
         if status is None:
             return StatusCode.OK, self.get_all_new_entities()
         return StatusCode.OK, NewEntity.query.filter(NewEntity.status == status).all()
 
     def get_new_entity(self,username,new_entity_id):
+        
+        '''用户获取具体某一个新实体
+
+        :username: 用户名字
+        :new_entity_id: 新实体的id
+        :return: StatusCode,新实体
+        '''
         
         newent = NewEntity.query.filter(NewEntity.id == new_entity_id).first()
         if newent is None:
@@ -61,6 +85,13 @@ class NewEntityService(object):
 
     def delete_new_entity(self,username,new_entity_id):
 
+        '''用户删除具体某一个新实体
+
+        :username: 用户名字
+        :new_entity_id: 新实体的id
+        :return: StatusCode
+        '''
+
         code,newent = self.get_new_entity(username,new_entity_id)
         if newent is None:
             return code
@@ -72,6 +103,14 @@ class NewEntityService(object):
     
 
     def edit_new_entity(self,username,new_entity_id,new_attribute):
+
+        '''用户修改具体某一个新实体
+
+        :username: 用户名字
+        :entity_id: 新实体的id
+        :new_attribute: 修改后的新实体属性
+        :return: StatusCode
+        '''
 
         code,newent= self.get_new_entity(username,new_entity_id)
         if newent is None:
@@ -85,6 +124,12 @@ class NewEntityService(object):
 
     def review_new_entities(self,review_entities_list,review_status):
 
+        '''管理员审核（修改）新实体的状态
+
+        :review_entities_list: 待审核的实体列表
+        :review_status: 修改后的状态
+        :return: StatusCode
+        '''
 
         for newent_id in review_entities_list:
 

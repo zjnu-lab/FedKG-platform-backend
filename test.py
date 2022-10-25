@@ -1,5 +1,7 @@
 from app import app 
 
 
-print(app.url_map)
-app.run(debug= True)
+if __name__ == '__main__':
+
+    print(app.url_map)
+    app.run(debug= True)
