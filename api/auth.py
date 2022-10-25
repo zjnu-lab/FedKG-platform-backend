@@ -1,4 +1,5 @@
 
+from api import user
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token
 
@@ -28,16 +29,12 @@ class Register(Resource):
         if args['password'] == "":
             return response(400,code=StatusCode.PWD_NULL.code,message=StatusCode.PWD_NULL.message)
         
-        is_exist,is_success =  user_service.register(args['username'], args['password'],args)
+        code =  user_service.register(args['username'], args['password'],args)
 
-        if is_exist == True:
-            return response(200,code=StatusCode.USER_EXISTED.code, message=StatusCode.USER_EXISTED.message)
-        elif is_success == False:
-            return response(500,code=StatusCode.ERROR.code, message=StatusCode.ERROR.message)
-        
-        return response(200,code=StatusCode.RESGISTER_SUCCESS.code, message=StatusCode.RESGISTER_SUCCESS.message)
-
-        # return "register successfully",200
+        if code == StatusCode.RESGISTER_SUCCESS:
+            return response(200,code.code,code.message)
+        else:
+            return response(400,code.code,code.message)
 
 class Login(Resource):
     
@@ -56,20 +53,19 @@ class Login(Resource):
         if args['password'] == "":
             return response(400,code=StatusCode.PWD_NULL.code,message=StatusCode.PWD_NULL.message)
 
-        is_exist, is_correct, user = user_service.login(args['username'], args['password'])
-        
-        if not is_exist:
-            return response(400,code=StatusCode.USER_ERR.code, message=StatusCode.USER_ERR.message)
-        elif not is_correct:
-            return response(400,code=StatusCode.PWD_ERR.code, message=StatusCode.PWD_ERR.message)
-        else:
+        code,user = user_service.login(args['username'], args['password'])
+
+        if code == StatusCode.Login_SUCCESS:
             data = {
                 "token":create_access_token(identity=user.username),
                 "user_id":user.id,
                 "user_role":user.role_id
             }
-            return response(200,code=StatusCode.Login_SUCCESS.code, message=StatusCode.Login_SUCCESS.message, data=data)
-
+            return response(200,code.code,code.message,data)
+        else:
+            return response(400,code.code,code.message)
+        
+        
 class AdminRegister(Resource):
     def post(self):
 
@@ -91,14 +87,10 @@ class AdminRegister(Resource):
         if args['password'] == "":
             return response(400,code=StatusCode.PWD_NULL.code,message=StatusCode.PWD_NULL.message)
         
-        is_exist,is_success =  user_service.register(args['username'], args['password'],args,admin=True)
+        code =  user_service.register(args['username'], args['password'],args,admin=True)
 
-        if is_exist == True:
-            return response(200,code=StatusCode.USER_EXISTED.code, message=StatusCode.USER_EXISTED.message)
-        elif is_success == False:
-            return response(500,code=StatusCode.ERROR.code, message=StatusCode.ERROR.message)
-        
-        return response(200,code=StatusCode.RESGISTER_SUCCESS.code, message=StatusCode.RESGISTER_SUCCESS.message)
-
-        # return "register successfully",200
+        if code == StatusCode.RESGISTER_SUCCESS:
+            return response(200,code.code,code.message)
+        else:
+            return response(400,code.code,code.message)
 

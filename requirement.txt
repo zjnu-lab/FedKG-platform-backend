@@ -3,3 +3,5 @@ flask-restful
 flask-jwt-extended
 Flask-SQLAlchemy
 pymysql
+cryptography
+flask-cors

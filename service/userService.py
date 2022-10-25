@@ -1,4 +1,5 @@
 from models.user import User
+from utils.code import StatusCode
 
 class UserService(object):
     
@@ -7,45 +8,42 @@ class UserService(object):
 
     def register(self, username, password, args,admin=False):
         
-        is_exist = False
-        is_success = False
+        _, user = self.find_user(username)
+        if user is not None:
+            return StatusCode.USER_EXISTED
 
-        if self.find_user(username):
-          is_exist = True
-          return is_exist,is_success
-
-
-        if self.create_user(username,password,args,admin):
-            is_success = True
+        return self.create_user(username,password,args,admin)
+            
         
-        return is_exist,is_success
+        
     
 
     def login(self, username, password):
 
-        is_exist = True
-        is_correct = True
-
-        user = self.find_user(username)
+        code,user = self.find_user(username)
         # print(user)
         # 后续需要做用户审核激活判断
         if user:
         # if user and user.active == 1:
             if not user.verify_password(password):
-               is_correct = False
+                return StatusCode.PWD_ERR,None
+            else:
+                return StatusCode.Login_SUCCESS,user
         else:
-            is_exist = False
-        
-        return is_exist,is_correct, user
-        # pass
+            return code,None
+
 
     
     def find_user(self, username):
 
         # 可以先从cache 获取
         # todo 
-
-        return User.query.filter(User.username == username).first()
+        user = User.query.filter(User.username == username).first()
+        if user == None:
+            return StatusCode.USER_ERR,None
+        else:
+            return StatusCode.OK,user
+        # return User.query.filter(User.username == username).first()
         # pass 
 
     def find_user_by_id(self, id):
@@ -53,16 +51,17 @@ class UserService(object):
 
     def edit_user(self, username,args):
         
-        user = self.find_user(username)
+        code,user = self.find_user(username)
 
         if user == None:
-            return False,False,False
+            return code
 
 
         if args.get('password'):
             old_password = args.get('old_password')
             if not user.verify_password(old_password):
-                return False,False,False
+                # return False,False,False
+                return StatusCode.PWD_ERR
             user.password = args.get('password')
         if args.get('phone'):
             user.phone = args.get('phone')
@@ -78,11 +77,10 @@ class UserService(object):
 
         user.save_to_db()
 
-        return True,True,True
+        return StatusCode.OK
         
 
     def create_user(self, username, password, args,admin=False):
-        is_success = False
         
         new_user = User(username,password)
 
@@ -98,18 +96,17 @@ class UserService(object):
             new_user.active = True
         
         new_user.save_to_db()
-        is_success = True
         
-        return is_success
+        return StatusCode.RESGISTER_SUCCESS
 
     def is_admin(self,username):
 
-        user = self.find_user(username)
+        code,user = self.find_user(username)
 
         if not user:
-            return False
+            return code
 
         if user.role_id != 1:
-            return False
+            return StatusCode.ADMIN_ERR
         
-        return True
+        return StatusCode.OK

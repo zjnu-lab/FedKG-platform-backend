@@ -17,12 +17,12 @@ class User(Resource):
     def get(self):
         username = get_jwt_identity()
 
-        user = user_service.find_user(username)
+        code,user = user_service.find_user(username)
 
         if user == None:
-            return response(400,StatusCode.USER_ERR.code,StatusCode.USER_ERR.message)
+            return response(400,code.code,code.message)
         else:
-            print(user)
+            # print(user)
             data = {
                 "username": user.username,
                 "phone": user.phone,
@@ -30,12 +30,12 @@ class User(Resource):
                 "scores": user.scores,
                 "active":user.active
             }
-            return response(200,StatusCode.OK.code, StatusCode.OK.message,data)
+            return response(200,code.code, code.message,data)
 
             
 
     @jwt_required()
-    def put(self):
+    def post(self):
 
         username = get_jwt_identity()
 
@@ -50,14 +50,11 @@ class User(Resource):
 
         args = dict(args)
 
-        flag1,flag2,flag3 = user_service.edit_user(username,args)
+        code = user_service.edit_user(username,args)
 
-        if flag1 == False:
-            return response(400,StatusCode.USER_ERR.code,StatusCode.USER_ERR.message)
-        elif flag2 == False:
-            return response(400,StatusCode.PWD_ERR.code,StatusCode.PWD_ERR.message)
+        if code == StatusCode.OK:
+            return response(200,code.code,code.message)
         else:
-            return response(200,StatusCode.OK.code,StatusCode.OK.message)
-        
-        # return "edit user user_id=%s" % user_id, 200
+            return response(400,code.code,code.message)
+
 
