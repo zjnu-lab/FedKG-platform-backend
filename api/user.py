@@ -26,6 +26,7 @@ class User(Resource):
             data = {
                 "username": user.username,
                 "phone": user.phone,
+                "organization": user.organization,
                 "name": user.name,
                 "scores": user.scores,
                 "active":user.active
