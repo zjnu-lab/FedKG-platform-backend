@@ -17,6 +17,7 @@ class Register(Resource):
             .add_argument("name", type=str, location='json') \
             .add_argument("phone", type=str, location='json') \
             .add_argument("email", type=str, location='json') \
+            .add_argument("organization", type=str, location='json') \
             .parse_args()
         
         if args['username'] == "":
@@ -45,7 +46,7 @@ class Login(Resource):
             .add_argument("password", type=str, location="json", required=True, help="密码不能为空") \
             .parse_args()
 
-        print (args)
+        # print (args)
 
         if args['username'] == "":
             return response(400,code=StatusCode.USER_NULL.code,message=StatusCode.USER_NULL.message)

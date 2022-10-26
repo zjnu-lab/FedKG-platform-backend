@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `users`(
    `name` VARCHAR(64),
    `email` VARCHAR(50),
    `phone` VARCHAR(20),
+   `organization` VARCHAR(100),NOT NULL,
    `active` Tinyint(1) NOT NULL,
    `role_id` INT UNSIGNED NOT NULL,
    `scores` INT UNSIGNED Default 0 NOT NULL,

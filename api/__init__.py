@@ -6,6 +6,7 @@ from api.auth import Register,Login,AdminRegister
 from api.user import User,Users
 
 from api.new_entity import NewEntity,UserNewEntities,Review
+from api.grpah import KGraph, Node
 
 def register_api(app):
 
@@ -33,3 +34,7 @@ def register_api(app):
 
     #review
     api.add_resource(Review,'/review')
+
+    #kgGraph
+    api.add_resource(Node,'/node')
+    api.add_resource(KGraph,'/initgraph')

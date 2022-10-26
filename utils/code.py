@@ -32,6 +32,8 @@ class StatusCode(Enum):
     REVIEWNWENTITY_SUCCESS = (3000,'审核成功')
     REVIEWNWENTITY_FAILED = (3001,'审核出现问题')
 
+    #kgGraph
+    NODE_NOTEXIST = (4001,'图谱不存在相关节点')
 
 
     @property

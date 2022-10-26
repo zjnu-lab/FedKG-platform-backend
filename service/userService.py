@@ -124,6 +124,8 @@ class UserService(object):
             new_user.email = args.get('email')
         if args.get('name'):
             new_user.name = args.get('name')
+        if args.get('organization'):
+            new_user.organization = args.get('organization')
         
         if admin == True:
             new_user.role_id = 1

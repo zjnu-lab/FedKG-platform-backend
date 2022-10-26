@@ -2,14 +2,15 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-
-
+from py2neo import Graph
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 db = SQLAlchemy()
 db.init_app(app)
 jwt = JWTManager(app)
+
+graph = Graph(app.config['GRAPH_URL'],password = app.config['GRAPH_PWD'])
 
 
 from api import register_api

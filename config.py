@@ -20,6 +20,9 @@ host = '127.0.0.1'
 port = '3306'
 database = 'fedkg'
 
+GRAPH_URL= "bolt://localhost:7687"
+GRAPH_PWD = 'password'
+
 
 
 # dev_db = prefix + 'data.db'
