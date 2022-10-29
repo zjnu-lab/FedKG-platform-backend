@@ -6,6 +6,8 @@ from app import db
 # from itsdangerous import TimedJSONWebSignatureSerializer
 from datetime import datetime
 
+
+from models.scores import Scores
 # Flask中一个Model子类就是数据库中的一个表。默认表名'User'.lower() ===> user
 
 class User(db.Model):
@@ -38,6 +40,7 @@ class User(db.Model):
 
     # 外键关联
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    score_records = db.relationship('Scores', backref='user')
     # # 反向引用: 1). User添加属性todos   2). Todo添加属性user
     # todos = db.relationship('Todo', backref='user')
     # # 反向引用: 1). User添加属性categories   2). Category添加属性user

@@ -5,3 +5,4 @@ Flask-SQLAlchemy
 pymysql
 cryptography
 flask-cors
+py2neo

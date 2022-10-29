@@ -2,11 +2,11 @@ import sys
 from flask_restful import Resource, Api
 
 from api.hello import Hello
-from api.auth import Register,Login,AdminRegister
+from api.auth import Register,Login,AdminRegister,Refresh
 from api.user import User,Users
 
 from api.new_entity import NewEntity,UserNewEntities,Review
-from api.grpah import KGraph, Node
+from api.grpah import KGraph, Node, Search
 
 def register_api(app):
 
@@ -25,6 +25,7 @@ def register_api(app):
     api.add_resource(Login, '/login')
     api.add_resource(Register, '/register')
     api.add_resource(AdminRegister, '/admin/register')
+    api.add_resource(Refresh, '/refresh')
 
     #new_entity
     api.add_resource(NewEntity, '/user/newent')
@@ -38,3 +39,4 @@ def register_api(app):
     #kgGraph
     api.add_resource(Node,'/node')
     api.add_resource(KGraph,'/initgraph')
+    api.add_resource(Search,'/search')

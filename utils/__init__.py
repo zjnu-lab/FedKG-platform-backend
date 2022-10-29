@@ -1,8 +1,8 @@
 from flask import jsonify
 import pickle
 import re 
-
-
+from app import jwt 
+from utils.code import StatusCode
 #统一返回方法
 def response(httpcode,code="",message="",data=None):
     
@@ -30,3 +30,9 @@ def validate_email(email):
       return True
     else:
       return False
+
+@jwt.expired_token_loader
+def expired_token_callback(jwt_header,jwt_data):
+    print(jwt_header)
+    print(jwt_data)
+    return response(401,StatusCode.TOKEN_EXPIRE.code,StatusCode.TOKEN_EXPIRE.message)

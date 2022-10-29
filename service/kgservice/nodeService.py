@@ -18,6 +18,8 @@ class NodeService(object):
 
         node = self.node_matcher.match(name=name).first()
 
+        print(node)
+
         if node is None:
             return StatusCode.NODE_NOTEXIST,None 
         else:

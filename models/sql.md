@@ -78,3 +78,26 @@ CREATE TABLE IF NOT EXISTS `new_entities`(
 
 ```
     
+
+
+## 积分变动记录表 记录用户积分的变化记录
+    __tablename__ = 'scores'  # 自定义数据表的表名
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    # 积分变动原因/事件,e.g 用户添加了实体
+    change_reasons = db.Column(db.Text)
+    # 积分变动记录 e.g.“+1”
+    change_records = db.Column(db.Text)
+    # 外键关联
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+```
+CREATE TABLE IF NOT EXISTS `scores`(
+   `id` INT UNSIGNED AUTO_INCREMENT,
+   `create_time` VARCHAR(100) NOT NULL,
+   `change_reasons` VARCHAR(200),
+   `change_records` VARCHAR(200),
+   `user_id` INT UNSIGNED NOT NULL,
+   PRIMARY KEY ( `id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+```

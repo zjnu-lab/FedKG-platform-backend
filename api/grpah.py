@@ -37,8 +37,6 @@ class Node(Resource):
 
         code,node = node_service.get_node_by_name(node_name)
 
-        print(node.labels)
-
         if code == StatusCode.OK:
             data = {
                 # "node_id":  node['id'],
@@ -47,7 +45,7 @@ class Node(Resource):
             }
             return response(200,code.code,code.message,data)
         else:
-            return response(code.code,code.message)
+            return response(400,code.code,code.message)
 
     @jwt_required()
     def post(self):
@@ -75,4 +73,25 @@ class Search(Resource):
 
     @jwt_required()
     def get(self):
-        pass
+        args = reqparse.RequestParser() \
+            .add_argument('node_name', type=str, location='args') \
+            .parse_args()
+
+        node_name = args.get('node_name')
+
+        # code,node = node_service.get_node_by_name(node_name)
+        code,nodes = graph_service.fuzzy_search(node_name)
+
+        if code == StatusCode.OK:
+            data = {}
+            node_list = []
+            for node in nodes:
+                node_list.append(node)
+            data = {
+                # "node_id":  node['id'],
+                # "node_name": node['name'],
+                "node_list": node_list,
+            }
+            return response(200,code.code,code.message,data)
+        else:
+            return response(400,code.code,code.message)

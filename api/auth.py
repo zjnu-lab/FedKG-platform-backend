@@ -1,7 +1,8 @@
 
 from api import user
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
+
 
 
 from utils import response,validate_email
@@ -58,7 +59,8 @@ class Login(Resource):
 
         if code == StatusCode.Login_SUCCESS:
             data = {
-                "token":create_access_token(identity=user.username),
+                "token":create_access_token(identity=user.username,fresh=False),
+                "refresh_token":create_refresh_token(identity=user.username),
                 "user_id":user.id,
                 "user_role":user.role_id
             }
@@ -95,3 +97,17 @@ class AdminRegister(Resource):
         else:
             return response(400,code.code,code.message)
 
+
+class Refresh(Resource):
+    
+    @jwt_required(refresh=True)
+    def post(self):
+        username = get_jwt_identity()
+
+
+        data = {
+            "token":create_access_token(identity=username),
+        }
+        return response(200,StatusCode.OK.code,StatusCode.OK.message,data)
+
+        

@@ -18,6 +18,7 @@ class StatusCode(Enum):
     PWD_NULL = (1005, '密码不能为空') 
     Login_SUCCESS = (1006, '登陆成功')
     ADMIN_ERR = (1007, '没有管理员权限')
+    TOKEN_EXPIRE = (1008, 'token 过期')
 
     # 上传新实体模块
     UPNWENTITY_SUCCESS = (2000, '上传新实体成功')

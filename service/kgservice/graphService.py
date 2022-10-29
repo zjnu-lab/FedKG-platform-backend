@@ -104,3 +104,16 @@ class GraphService(object):
         
         return StatusCode.OK,Nodes,Links
 
+    def fuzzy_search(self,str):
+
+        match_str = 'match (m) where m.name contains \"'+ str +'\" return m' 
+        resultslist = graph.run(match_str).data()
+
+
+        Nodes = []
+        
+        for r in resultslist:
+            # node = self.genNodeDict(r['m'])
+            Nodes.append(dict(r['m']))
+
+        return StatusCode.OK,Nodes

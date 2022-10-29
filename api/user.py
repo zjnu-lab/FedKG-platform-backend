@@ -29,7 +29,9 @@ class User(Resource):
                 "organization": user.organization,
                 "name": user.name,
                 "scores": user.scores,
-                "active":user.active
+                "active":user.active,
+                # score_records 需要进行处理，这里先直接用
+                "scores_records": user.score_records
             }
             return response(200,code.code, code.message,data)
 
