@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from py2neo import Graph
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder="tempfile", static_url_path="/static")
 app.config.from_pyfile('config.py')
 db = SQLAlchemy()
 db.init_app(app)

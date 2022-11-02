@@ -36,3 +36,8 @@ JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
 JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
 
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+
+#file path
+
+FILE_PATH = "/Users/lzh17/Projects/FedKG-platform-backend/tempfile/"
+FILE_URL_PREFIX = "127.0.0.1:5000/static/"

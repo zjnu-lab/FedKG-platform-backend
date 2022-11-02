@@ -1,5 +1,6 @@
 
-from py2neo import Node,NodeMatcher
+from py2neo import Graph,Node,NodeMatcher,Relationship,Path
+
 
 
 from app import graph
@@ -86,34 +87,81 @@ class GraphService(object):
         match_str = "MATCH p=(h)-[r]->(t) RETURN p,h,id(h),t,id(t),type(r),r LIMIT 50"
         resultslist = graph.run(match_str).data()
 
-        Nodes = []
-        Links = []
-
-        for r in resultslist:
-            hnode = self.genNodeDict(r['h'])
-            tnode = self.genNodeDict(r['t'])
-            if hnode not in Nodes:
-                #hnode['id'] = len(Nodes)+1
-                Nodes.append(hnode)
-            if tnode not in Nodes:
-                #tnode['id'] = len(Nodes)+1
-                Nodes.append(tnode)
-
-            link = self.genLinkDict(r['p'])
-            Links.append(link)
+        Nodes,Links = self.decode_resultslist(resultslist)
         
         return StatusCode.OK,Nodes,Links
 
     def fuzzy_search(self,str):
+        '''节点模糊搜索
+        
+        :str: 搜索关键字
+        :return: Nodes
+        '''
 
         match_str = 'match (m) where m.name contains \"'+ str +'\" return m' 
         resultslist = graph.run(match_str).data()
 
+        Nodes,_ = self.decode_resultslist(resultslist)
+        
+        return StatusCode.OK,Nodes
+
+    def get_one_hop_neighbor(self,id):
+        '''获取节点一跳邻居
+        
+        :id: 节点id
+        :return: Nodes,Links
+        '''
+
+        match_str = ' MATCH p=(a)-[r]->(b) where id(a)='+ id + ' or id(b)='+id+' RETURN p LIMIT 50'
+        resultslist = graph.run(match_str).data()
+
+        Nodes,Links = self.decode_resultslist(resultslist)
+
+        return StatusCode.OK,Nodes,Links
+
+    def get_two_hop_neighbor(self,id):
+        '''获取节点两跳邻居
+        
+        :id: 节点id
+        :return: Nodes,Links
+        '''
+
+        
+        match_str = ' MATCH p=(a)-[r]->(b)-[m]->(c) where id(a)='+ id + ' or id(c)='+ id +' RETURN p LIMIT 50'
+        resultslist = graph.run(match_str).data()
+
+        Nodes,Links = self.decode_resultslist(resultslist)
+
+        return StatusCode.OK,Nodes,Links
+
+    def decode_resultslist(self,resultslist):
+        '''获取解析neo4j查询语句查询结果
+        
+        :resulutslist: 查询结果
+        :return: Nodes,Links
+        '''
 
         Nodes = []
-        
-        for r in resultslist:
-            # node = self.genNodeDict(r['m'])
-            Nodes.append(dict(r['m']))
+        Links = []
 
-        return StatusCode.OK,Nodes
+        for r in resultslist:
+            for t in list(dict(r).keys()):
+
+                if  isinstance(r[t],Node):
+                    self.appendNode(r[t],Nodes)
+                
+                elif  isinstance(r[t],Relationship):
+             
+                    self.appendNode(r[t].start_node,Nodes)
+                    self.appendNode(r[t].end_node,Nodes)
+                    self.appendRel(r[t],Links)
+                  
+                elif  isinstance(r[t],Path):
+                    print(r[t].keys())
+                    for n in r[t].nodes:
+                        self.appendNode(n,Nodes)
+                    for rel in r[t].relationships:
+                        self.appendRel(rel,Links)
+
+        return Nodes,Links
+        

@@ -31,6 +31,7 @@ def validate_email(email):
     else:
       return False
 
+# token 过期处理函数
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header,jwt_data):
     print(jwt_header)

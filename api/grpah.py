@@ -1,3 +1,4 @@
+from xxlimited import Str
 from flask_restful import Resource, Api,reqparse
 from flask_jwt_extended import get_jwt_identity,jwt_required
 
@@ -95,3 +96,53 @@ class Search(Resource):
             return response(200,code.code,code.message,data)
         else:
             return response(400,code.code,code.message)
+
+
+class OnehopNeighbor(Resource):
+
+    @jwt_required()
+    def get(self):
+        args = reqparse.RequestParser() \
+            .add_argument('node_id', type=str, location='args') \
+            .parse_args()
+
+        node_id = args.get('node_id')
+
+
+        code,nodes,links = graph_service.get_one_hop_neighbor(node_id)
+
+        if code == StatusCode.OK:
+            data = {
+                "nodes": nodes,
+                "links": links
+            }
+
+            return response(200,code.code,code.message,data)
+        else:
+            return response(400,code.code,code.message)
+
+class TwohopNeighbor(Resource):
+
+    @jwt_required()
+    def get(self):
+        args = reqparse.RequestParser() \
+            .add_argument('node_id', type=str, location='args') \
+            .parse_args()
+
+        node_id = args.get('node_id')
+
+
+        code,nodes,links = graph_service.get_two_hop_neighbor(node_id)
+
+        if code == StatusCode.OK:
+            data = {
+                "nodes": nodes,
+                "links": links
+            }
+
+            return response(200,code.code,code.message,data)
+        else:
+            return response(400,code.code,code.message)
+
+
+

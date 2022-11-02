@@ -25,3 +25,18 @@ class NodeService(object):
         else:
             return StatusCode.OK, node
     
+    def get_node_by_id(self, id):
+        '''通过节点id 获取图谱实体
+        
+        :id: 图谱节点id
+        :return: Node
+        '''
+
+        node = self.node_matcher.match(id=id).first()
+
+        print(node)
+
+        if node is None:
+            return StatusCode.NODE_NOTEXIST,None 
+        else:
+            return StatusCode.OK, node

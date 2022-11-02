@@ -6,7 +6,8 @@ from api.auth import Register,Login,AdminRegister,Refresh
 from api.user import User,Users
 
 from api.new_entity import NewEntity,UserNewEntities,Review
-from api.grpah import KGraph, Node, Search
+from api.grpah import KGraph, Node, Search, OnehopNeighbor,TwohopNeighbor
+from api.file import File
 
 def register_api(app):
 
@@ -40,3 +41,8 @@ def register_api(app):
     api.add_resource(Node,'/node')
     api.add_resource(KGraph,'/initgraph')
     api.add_resource(Search,'/search')
+    api.add_resource(OnehopNeighbor, '/node/onehop')
+    api.add_resource(TwohopNeighbor, '/node/twohop')
+
+    #file
+    api.add_resource(File,'/file')
