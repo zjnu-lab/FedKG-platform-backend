@@ -105,29 +105,31 @@ class GraphService(object):
         
         return StatusCode.OK,Nodes
 
-    def get_one_hop_neighbor(self,id):
+    def get_one_hop_neighbor(self,id,limits="50"):
         '''获取节点一跳邻居
         
         :id: 节点id
+        :limits: 限制结果数量
         :return: Nodes,Links
         '''
 
-        match_str = ' MATCH p=(a)-[r]->(b) where id(a)='+ id + ' or id(b)='+id+' RETURN p LIMIT 50'
+        match_str = ' MATCH p=(a)-[r]->(b) where id(a)='+ id + ' or id(b)='+id+' RETURN p LIMIT '+limits
         resultslist = graph.run(match_str).data()
 
         Nodes,Links = self.decode_resultslist(resultslist)
 
         return StatusCode.OK,Nodes,Links
 
-    def get_two_hop_neighbor(self,id):
+    def get_two_hop_neighbor(self,id,limits="50"):
         '''获取节点两跳邻居
         
         :id: 节点id
+        :limits: 限制结果数量
         :return: Nodes,Links
         '''
 
         
-        match_str = ' MATCH p=(a)-[r]->(b)-[m]->(c) where id(a)='+ id + ' or id(c)='+ id +' RETURN p LIMIT 50'
+        match_str = ' MATCH p=(a)-[r]->(b)-[m]->(c) where id(a)='+ id + ' or id(c)='+ id +' RETURN p LIMIT ' + limits
         resultslist = graph.run(match_str).data()
 
         Nodes,Links = self.decode_resultslist(resultslist)

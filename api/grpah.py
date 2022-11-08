@@ -104,12 +104,16 @@ class OnehopNeighbor(Resource):
     def get(self):
         args = reqparse.RequestParser() \
             .add_argument('node_id', type=str, location='args') \
+            .add_argument('limits', type=str, location='args') \
             .parse_args()
 
         node_id = args.get('node_id')
-
-
-        code,nodes,links = graph_service.get_one_hop_neighbor(node_id)
+        
+        if args.get('limits'):
+            limits = args.get('limits')
+            code,nodes,links = graph_service.get_one_hop_neighbor(node_id,limits)
+        else:
+            code,nodes,links = graph_service.get_one_hop_neighbor(node_id)
 
         if code == StatusCode.OK:
             data = {
@@ -127,12 +131,17 @@ class TwohopNeighbor(Resource):
     def get(self):
         args = reqparse.RequestParser() \
             .add_argument('node_id', type=str, location='args') \
+            .add_argument('limits', type=str, location='args') \
             .parse_args()
 
         node_id = args.get('node_id')
+        
+        if args.get('limits'):
+            limits = args.get('limits')
+            code,nodes,links = graph_service.get_two_hop_neighbor(node_id,limits)
+        else:
+            code,nodes,links = graph_service.get_two_hop_neighbor(node_id)
 
-
-        code,nodes,links = graph_service.get_two_hop_neighbor(node_id)
 
         if code == StatusCode.OK:
             data = {
