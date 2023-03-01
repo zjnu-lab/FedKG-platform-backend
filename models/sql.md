@@ -77,6 +77,24 @@ CREATE TABLE IF NOT EXISTS `new_entities`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ```
+
+## 训练任务表
+```mysql
+CREATE TABLE IF NOT EXISTS `task`(
+   `id` INT UNSIGNED AUTO_INCREMENT,
+   `create_time` VARCHAR(100) NOT NULL,
+   `status` INT UNSIGNED default 0 NOT NULL,
+   `task_name` VARCHAR(200) NOT NULL,
+   `server_ip` VARCHAR(100) NOT NULL,
+   `server_port` VARCHAR(100) NOT NULL,
+   `task_summary` VARCHAR(200) NOT NULL,
+   `task_intro` TEXT,
+   `client_code_url` VARCHAR(200) NOT NULL,
+   `task_user_id` INT UNSIGNED,
+   PRIMARY KEY ( `id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+```
     
 
 

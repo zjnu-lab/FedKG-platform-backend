@@ -122,6 +122,8 @@ class NewEntity(Resource):
             return response(400, code.code, code.message)
 
 
+
+    
 class UserNewEntities(Resource):
 
     @jwt_required()

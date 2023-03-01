@@ -11,6 +11,7 @@ def response(httpcode,code="",message="",data=None):
             "message": message,
             "data": data
         })
+    # print(resp)
     resp.status_code = httpcode
     return resp
 

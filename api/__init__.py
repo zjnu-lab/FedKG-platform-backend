@@ -9,6 +9,8 @@ from api.new_entity import NewEntity,UserNewEntities,Review
 from api.grpah import KGraph, Node, Search, OnehopNeighbor,TwohopNeighbor
 from api.file import File
 
+from api.task import Task,Tasks,UserTasks
+
 def register_api(app):
 
     api = Api(app)
@@ -46,3 +48,12 @@ def register_api(app):
 
     #file
     api.add_resource(File,'/file')
+
+    #task
+    api.add_resource(Task,'/task')
+
+    #tasks
+    api.add_resource(Tasks,'/tasks')
+
+    #usertasks
+    api.add_resource(UserTasks,'/usertasks')

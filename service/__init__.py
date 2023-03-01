@@ -15,3 +15,7 @@ node_service = NodeService()
 from service.kgservice.graphService import GraphService
 
 graph_service = GraphService()
+
+from service.taskService import TaskService
+
+task_service = TaskService()
