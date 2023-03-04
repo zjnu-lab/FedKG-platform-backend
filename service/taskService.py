@@ -33,7 +33,7 @@ class TaskService(object):
         '''获取用户创建的任务
 
         :username: 用户名字
-        :status: 新实体的状态，为空时 返回所有状态的任务
+        :status: 任务的状态，为空时 返回所有状态的任务
         :return: StatusCode
         '''
         code,user = user_service.find_user(username)
@@ -81,7 +81,7 @@ class TaskService(object):
         if username != user.username:
             return StatusCode.GETNWENTITY_FAILED,None
         else:
-            return StatusCode.GETNWENTITY_SUCCESS,task
+            return StatusCode.OK,task
         # return StatusCode.GETNWENTITY_SUCCESS,task
 
 
@@ -99,7 +99,7 @@ class TaskService(object):
             return code
         else:
             task.delete_from_db()
-            return StatusCode.DELNENTITY_SUCCESS
+            return StatusCode.OK
 
         
     
@@ -130,6 +130,5 @@ class TaskService(object):
 
             task.save_to_db()
 
-            return StatusCode.EDITNWENTITY_SUCCESS
-
+            return StatusCode.OK
    

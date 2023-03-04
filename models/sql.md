@@ -119,3 +119,19 @@ CREATE TABLE IF NOT EXISTS `scores`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ```
+
+
+## 训练模型 表
+
+```mysql
+CREATE TABLE IF NOT EXISTS `model`(
+   `id` INT UNSIGNED AUTO_INCREMENT,
+   `create_time` VARCHAR(100) NOT NULL,
+   `model_name` VARCHAR(200) NOT NULL,
+   `model_desc` TEXT,
+   `client_code` VARCHAR(400) NOT NULL,
+   `server_code` VARCHAR(400) NOT NULL,
+   `model_user_id` INT UNSIGNED,
+   PRIMARY KEY ( `id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```

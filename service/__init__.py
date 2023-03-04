@@ -19,3 +19,7 @@ graph_service = GraphService()
 from service.taskService import TaskService
 
 task_service = TaskService()
+
+from service.modelService import ModelService
+
+model_service = ModelService()

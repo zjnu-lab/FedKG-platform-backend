@@ -136,6 +136,21 @@ class GraphService(object):
 
         return StatusCode.OK,Nodes,Links
 
+    def get_node_by_id(self, node_id):
+        '''获取节点两跳邻居
+        
+        :id: 节点id
+        :limits: 限制结果数量
+        :return: Nodes,Links
+        '''
+
+        
+        match_str = ' MATCH (n) where id(n) = '+ node_id  + " return n"
+        resultslist = graph.run(match_str).data()
+
+        Nodes,Links = self.decode_resultslist(resultslist)
+        return StatusCode.OK,Nodes,Links
+
     def decode_resultslist(self,resultslist):
         '''获取解析neo4j查询语句查询结果
         

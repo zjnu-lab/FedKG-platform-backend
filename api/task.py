@@ -20,24 +20,22 @@ import pickle
 
 class Task(Resource):
 
-    #创建新的实体
+    #创建新的任务
     @jwt_required()
     def post(self):
 
 
         username = get_jwt_identity()
 
-        # args 解析 -> 序列化
-        
         args = reqparse.RequestParser() \
             .add_argument('task_attributes', type = dict, required = True) \
             .parse_args()
         task_attributes = args['task_attributes']
-        print(task_attributes)
+        # print(task_attributes)
         #创建新任务
         code = task_service.create_new_task(username,task_attributes)
 
-        if code == StatusCode.UPNWENTITY_SUCCESS:
+        if code == StatusCode.OK:
             return response(200,code.code,code.message)
         else:
             return response(400,code.code,code.message)
@@ -100,7 +98,7 @@ class Task(Resource):
 
         code = task_service.edit_task(username,task_id, task_attributes)
         
-        if code == StatusCode.EDITNWENTITY_SUCCESS:
+        if code == StatusCode.OK:
             return response(200,code.code,code.message)
         else:
             return response(400,code.code,code.message)
@@ -117,7 +115,7 @@ class Task(Resource):
 
         code = task_service.delete_task(username,task_id)
 
-        if code == StatusCode.DELNENTITY_SUCCESS:
+        if code == StatusCode.OK:
             return response(200,code.code,code.message)
         else:
             return response(400, code.code, code.message)

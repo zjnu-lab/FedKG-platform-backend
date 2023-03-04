@@ -6,10 +6,12 @@ from api.auth import Register,Login,AdminRegister,Refresh
 from api.user import User,Users
 
 from api.new_entity import NewEntity,UserNewEntities,Review
-from api.grpah import KGraph, Node, Search, OnehopNeighbor,TwohopNeighbor
+from api.grpah import KGraph, Node,NodeId ,Search, OnehopNeighbor,TwohopNeighbor
 from api.file import File
 
 from api.task import Task,Tasks,UserTasks
+
+from api.model import Model,Models,UserModels
 
 def register_api(app):
 
@@ -41,6 +43,7 @@ def register_api(app):
 
     #kgGraph
     api.add_resource(Node,'/node')
+    api.add_resource(NodeId,'/nodeid')
     api.add_resource(KGraph,'/initgraph')
     api.add_resource(Search,'/search')
     api.add_resource(OnehopNeighbor, '/node/onehop')
@@ -51,9 +54,11 @@ def register_api(app):
 
     #task
     api.add_resource(Task,'/task')
-
-    #tasks
     api.add_resource(Tasks,'/tasks')
-
-    #usertasks
     api.add_resource(UserTasks,'/usertasks')
+
+
+    #models
+    api.add_resource(Model,'/model')
+    api.add_resource(UserModels,'/usermodels')
+    api.add_resource(Models,'/models')

@@ -31,7 +31,7 @@ class NodeService(object):
         :id: 图谱节点id
         :return: Node
         '''
-
+    
         node = self.node_matcher.match(id=id).first()
 
         print(node)
