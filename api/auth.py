@@ -78,6 +78,7 @@ class AdminRegister(Resource):
             .add_argument("name", type=str, location='json') \
             .add_argument("phone", type=str, location='json') \
             .add_argument("email", type=str, location='json') \
+            .add_argument("organization", type=str, location='json') \
             .parse_args()
         
         if args['username'] == "":

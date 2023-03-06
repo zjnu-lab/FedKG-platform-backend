@@ -246,6 +246,7 @@ class Review(Resource):
                     "newent_name":newent_attributes.get("newentity_name"),
                     "newent_information":newent_attributes.get("newentity_information"),
                     "newent_status":status_dict[str(newent.status)],
+                    "upload_user":newent.upload_user.username
                 }
                 
                 entities_list.append(temp)
