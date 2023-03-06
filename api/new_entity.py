@@ -30,7 +30,7 @@ class NewEntity(Resource):
         # args 解析 -> 序列化
         
         args = reqparse.RequestParser() \
-            .add_argument('newentity', type = dict, required = True) \
+            .add_argument('newentity', type = dict, location='json',required = True) \
             .parse_args()
 
         # 序列化 待测试是否能传入blob 字段
@@ -144,15 +144,17 @@ class UserNewEntities(Resource):
         if code == StatusCode.OK:
 
             entities_list = []
-
+            status_dict = {"0":"未审核","1":"审核通过","2":"审核不通过"}
             for newent in new_entities_list:
 
                 newent_attributes = new_entity_deserialize(newent.entity_attributes)
 
                 temp = {
                     "newent_id":newent.id,
+                    "create_time":newent.create_time,
                     "newent_name":newent_attributes.get("newentity_name"),
-                    "newent_status":newent.status,
+                    "newent_information":newent_attributes.get("newentity_information"),
+                    "newent_status":status_dict[str(newent.status)],
                 }
                 
                 entities_list.append(temp)
@@ -232,15 +234,18 @@ class Review(Resource):
 
         if code == StatusCode.OK:
             entities_list = []
-
+            # 0: 未审核，1: 审核通过， 2: 审核不通过，3： 未提交,4:提交
+            status_dict = {"0":"未审核","1":"审核通过","2":"审核不通过"}
             for newent in new_entities_list:
 
                 newent_attributes = new_entity_deserialize(newent.entity_attributes)
 
                 temp = {
                     "newent_id":newent.id,
+                    "create_time":newent.create_time,
                     "newent_name":newent_attributes.get("newentity_name"),
-                    "newent_status":newent.status,
+                    "newent_information":newent_attributes.get("newentity_information"),
+                    "newent_status":status_dict[str(newent.status)],
                 }
                 
                 entities_list.append(temp)
