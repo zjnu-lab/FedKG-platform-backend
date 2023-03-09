@@ -41,7 +41,7 @@ class ModelService(object):
             return code,None
 
         
-        user_models = user.user_models
+        user_models = user.user_model
         
         return StatusCode.OK,user_models
 
@@ -54,7 +54,7 @@ class ModelService(object):
 
     def get_model(self,username,model_id):
         
-        '''用户获取具体某一个任务
+        '''用户获取具体某一个模型
 
         :username: 用户名字
         :task_id:任务的id
@@ -66,7 +66,7 @@ class ModelService(object):
             return StatusCode.NWENETITY_NOTEXIST,None
         user = user_service.find_user_by_id(model.model_user_id)
 
-        if username != user.username:
+        if username != user.username and user_service.is_admin(username) != StatusCode.OK:
             return StatusCode.GETNWENTITY_FAILED,None
         else:
             return StatusCode.OK,model

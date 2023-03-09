@@ -29,11 +29,10 @@ class TaskService(object):
 
         return StatusCode.OK
 
-    def get_user_tasks(self,username,status=None):
+    def get_user_tasks(self,username):
         '''获取用户创建的任务
 
         :username: 用户名字
-        :status: 任务的状态，为空时 返回所有状态的任务
         :return: StatusCode
         '''
         code,user = user_service.find_user(username)
@@ -41,10 +40,9 @@ class TaskService(object):
         if user is None:
             return code,None
 
-        if status is None:
-            user_tasks = user.user_tasks
-        else:
-            user_tasks = Task.query.filter(Task.task_user_id == user.id,Task.status == status).all()
+    
+        user_tasks = user.user_tasks
+       
 
         return StatusCode.OK,user_tasks
 
@@ -54,15 +52,15 @@ class TaskService(object):
     def get_task_by_id(self,task_id):
         return StatusCode.OK,Task.query.filter(Task.id == task_id).first()
 
-    def get_tasks_status(self,status=None):
-        '''根据status获取任务
+    # def get_tasks_status(self,status=None):
+    #     '''根据status获取任务
 
-        :status: 任务的状态，为空时 返回所有状态的任务
-        :return: StatusCode,任务list
-        '''
-        if status is None:
-            return StatusCode.OK, self.get_all_tasks()
-        return StatusCode.OK, Task.query.filter(Task.status == status).all()
+    #     :status: 任务的状态，为空时 返回所有状态的任务
+    #     :return: StatusCode,任务list
+    #     '''
+    #     if status is None:
+    #         return StatusCode.OK, self.get_all_tasks()
+    #     return StatusCode.OK, Task.query.filter(Task.status == status).all()
 
     def get_task(self,username,task_id):
         

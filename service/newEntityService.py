@@ -77,7 +77,7 @@ class NewEntityService(object):
             return StatusCode.NWENETITY_NOTEXIST,None
         user = user_service.find_user_by_id(newent.upload_user_id)
 
-        if username != user.username:
+        if username != user.username and user_service.is_admin(username) != StatusCode.OK:
             return StatusCode.GETNWENTITY_FAILED,None
         else:
             return StatusCode.GETNWENTITY_SUCCESS,newent

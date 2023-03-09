@@ -62,14 +62,14 @@ class Task(Resource):
             data = {
                 "id" : task.id,
                 "create_time" : task.create_time,
-                # status 标识 审核状态 0: 未审核，1: 审核通过未同步， 2: 审核不通过，3： 已同步
-                "status" : task.status,
+                
+                "task_status" : task.task_status,
                 "task_name" : task.task_name,
-                "task_summary" : task.task_summary,
-                "task_intro" : task.task_intro,
+                "task_desc" : task.task_desc,
                 "server_ip" : task.server_ip,
                 "server_port" : task.server_port,
-                "client_code_url" : task.client_code_url
+                "task_model" : task.task_model,
+                "task_rounds": task.task_rounds,
             }
             
             return response(200,code.code,code.message,data)
@@ -125,14 +125,12 @@ class Tasks(Resource):
     @jwt_required()
     def get(self):
 
-        args = reqparse.RequestParser() \
-            .add_argument('status', type=int, location='json') \
-            .parse_args()
+    
 
         username = get_jwt_identity()
 
         status = args.get('status', None)
-        code,tasks_list = task_service.get_tasks_status(status)
+        code,tasks_list = task_service.get_all_tasks()
 
         if code == StatusCode.OK:
 
@@ -145,14 +143,14 @@ class Tasks(Resource):
                 temp = {
                     "id" : task.id,
                     "create_time" : task.create_time,
-                    # status 标识 审核状态 0: 未审核，1: 审核通过未同步， 2: 审核不通过，3： 已同步
-                    "status" : task.status,
+                    "task_status" : task.status,
                     "task_name" : task.task_name,
-                    "task_summary" : task.task_summary,
-                    "task_intro" : task.task_intro,
+                    "task_desc" : task.task_desc,
+
                     "server_ip" : task.server_ip,
                     "server_port" : task.server_port,
-                    "client_code_url" : task.client_code_url
+                    "task_model" : task.task_model,
+                    "task_rounds": task.task_rounds,
                 }
                 
                 data_list.append(temp)
@@ -175,15 +173,10 @@ class UserTasks(Resource):
 
         username = get_jwt_identity()
 
-        # status 新实体审核状态，默认为空，则返回用户所有新实体
-        args = reqparse.RequestParser() \
-            .add_argument('status', type=int, location='json') \
-            .parse_args()
-
-        status = args.get('status',None)
+      
 
 
-        code,tasks_list = task_service.get_user_tasks(username,status)
+        code,tasks_list = task_service.get_user_tasks(username)
         
         if code == StatusCode.OK:
 
@@ -192,16 +185,15 @@ class UserTasks(Resource):
             for task in tasks_list:
 
                 temp = {
-                    "id" : task.id,
+                    "task_id" : task.id,
                     "create_time" : task.create_time,
-                    # status 标识 审核状态 0: 未审核，1: 审核通过未同步， 2: 审核不通过，3： 已同步
-                    "status" : task.status,
+                    "task_status" : task.task_status,
                     "task_name" : task.task_name,
-                    "task_summary" : task.task_summary,
-                    "task_intro" : task.task_intro,
+                    "task_desc" : task.task_desc,
                     "server_ip" : task.server_ip,
                     "server_port" : task.server_port,
-                    "client_code_url" : task.client_code_url
+                    "task_model" : task.task_model,
+                    "task_rounds" : task.task_rounds,
                 }
                 
                 data_list.append(temp)
