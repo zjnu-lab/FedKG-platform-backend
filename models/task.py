@@ -27,10 +27,10 @@ class Task(db.Model):
 
     # 外键关联
     task_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    task_model_id = db.Column(db.Integer,db.ForeignKey('model.id'))
+    # task_model_id = db.Column(db.Integer,db.ForeignKey('model.id'))
     
     task_user = db.relationship("User",backref="user_tasks",foreign_keys=[task_user_id])
-    task_model = db.relationship("Model",backref="model_tasks",foreign_keys=[task_model_id])
+    # task_model = db.relationship("Model",backref="model_tasks",foreign_keys=[task_model_id])
     
 
     # upload_user = db.relationship("Users",back_populates="new_entities")
