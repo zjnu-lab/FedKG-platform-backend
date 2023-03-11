@@ -17,6 +17,41 @@ from utils.code import StatusCode
 
 import pickle
 
+class ModelName(Resource):
+
+    @jwt_required()
+    def get(self):
+        args = reqparse.RequestParser() \
+            .add_argument('model_name', type=str, location='args',required=True) \
+            .parse_args()
+
+        model_name = args.get("model_name")
+        
+
+        username = get_jwt_identity()
+
+        code = None
+        #传入 用户名，以及任务id 
+   
+        code,model = model_service.get_model_by_name(model_name)
+
+        if code == StatusCode.OK:
+            # entity_attributes = task.task_attributes
+            # print(entity_attributes)
+
+            data = {
+                "model_id" : model.id,
+                "create_time" : model.create_time,
+                "model_name" : model.model_name,
+                "model_desc" : model.model_desc,
+                "client_code" : model.client_code,
+                "server_code" : model.server_code
+            }
+            
+            return response(200,code.code,code.message,data)
+        else:
+            return response(400,code.code,code.message)
+
 
 class Model(Resource):
 
@@ -44,12 +79,10 @@ class Model(Resource):
     @jwt_required()
     def get(self):
         args = reqparse.RequestParser() \
-            .add_argument('model_id', type=int, location='json') \
-            .add_argument('model_name', type=int, location='json') \
+            .add_argument('model_id', type=int, location='args',required = True) \
             .parse_args()
 
-        model_id = args.get("model_id",None)
-        model_name = args.get("model_name",None)
+        model_id = args.get("model_id")
         
 
         username = get_jwt_identity()

@@ -70,7 +70,7 @@ class Task(Resource):
                 "server_port" : task.server_port,
                 "task_model" : task.task_model,
                 "task_rounds": task.task_rounds,
-                "task_log":task.task_log,
+                "task_log": task.task_log,
             }
             
             return response(200,code.code,code.message,data)

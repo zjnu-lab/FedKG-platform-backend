@@ -11,7 +11,7 @@ from api.file import File
 
 from api.task import Task,Tasks,UserTasks
 
-from api.model import Model,Models,UserModels
+from api.model import Model,Models,UserModels,ModelName
 
 def register_api(app):
 
@@ -60,5 +60,7 @@ def register_api(app):
 
     #models
     api.add_resource(Model,'/model')
+    api.add_resource(ModelName,'/modelname')
     api.add_resource(UserModels,'/usermodels')
     api.add_resource(Models,'/modellist')
+

@@ -52,7 +52,7 @@ class ModelService(object):
         return StatusCode.OK,Model.query.filter(Model.id == model_id).first()
 
     def get_model_by_name(self,model_name): 
-        return StatusCode.OK,Model.query.filter(Model.name == model_name).first()
+        return StatusCode.OK,Model.query.filter(Model.model_name == model_name).first()
 
 
     def get_model(self,username,model_id):
