@@ -44,7 +44,7 @@ class Task(Resource):
     @jwt_required()
     def get(self):
         args = reqparse.RequestParser() \
-            .add_argument('task_id', type=int, location='json',required = True) \
+            .add_argument('task_id', type=int,location='args',required = True) \
             .parse_args()
 
         task_id = args["task_id"]
@@ -70,6 +70,7 @@ class Task(Resource):
                 "server_port" : task.server_port,
                 "task_model" : task.task_model,
                 "task_rounds": task.task_rounds,
+                "task_log":task.task_log,
             }
             
             return response(200,code.code,code.message,data)
@@ -129,7 +130,7 @@ class Tasks(Resource):
 
         username = get_jwt_identity()
 
-        status = args.get('status', None)
+        # status = args.get('status', None)
         code,tasks_list = task_service.get_all_tasks()
 
         if code == StatusCode.OK:

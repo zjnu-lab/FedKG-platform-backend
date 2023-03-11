@@ -47,7 +47,7 @@ class TaskService(object):
         return StatusCode.OK,user_tasks
 
     def get_all_tasks(self):
-        return Task.query.all()
+        return StatusCode.OK,Task.query.all()
 
     def get_task_by_id(self,task_id):
         return StatusCode.OK,Task.query.filter(Task.id == task_id).first()

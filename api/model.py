@@ -44,16 +44,22 @@ class Model(Resource):
     @jwt_required()
     def get(self):
         args = reqparse.RequestParser() \
-            .add_argument('model_id', type=int, location='json',required = True) \
+            .add_argument('model_id', type=int, location='json') \
+            .add_argument('model_name', type=int, location='json') \
             .parse_args()
 
-        model_id = args["model_id"]
+        model_id = args.get("model_id",None)
+        model_name = args.get("model_name",None)
+        
 
         username = get_jwt_identity()
 
-
+        code = None
         #传入 用户名，以及任务id 
-        code,model = model_service.get_model_by_id(model_id)
+        if model_id is not None:
+            code,model = model_service.get_model_by_id(model_id)
+        elif model_name is  not None:
+            code,model = model_service.get_model_by_name(model_name)
 
         if code == StatusCode.OK:
             # entity_attributes = task.task_attributes
@@ -151,7 +157,7 @@ class Models(Resource):
                 data_list.append(temp)
                 
             data = {
-                "task_list":data_list,
+                "model_list":data_list,
             }
             print(data)
 
@@ -198,7 +204,7 @@ class UserModels(Resource):
 
                 
             data = {
-                "task_list":data_list,
+                "model_list":data_list,
             }
 
             return response(200, code.code,code.message,data)

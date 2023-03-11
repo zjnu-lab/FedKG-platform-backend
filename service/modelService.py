@@ -51,6 +51,9 @@ class ModelService(object):
     def get_model_by_id(self,model_id):
         return StatusCode.OK,Model.query.filter(Model.id == model_id).first()
 
+    def get_model_by_name(self,model_name): 
+        return StatusCode.OK,Model.query.filter(Model.name == model_name).first()
+
 
     def get_model(self,username,model_id):
         

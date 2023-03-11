@@ -61,4 +61,4 @@ def register_api(app):
     #models
     api.add_resource(Model,'/model')
     api.add_resource(UserModels,'/usermodels')
-    api.add_resource(Models,'/models')
+    api.add_resource(Models,'/modellist')
